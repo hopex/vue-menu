@@ -322,7 +322,7 @@ $('#btn-clear').click(function(){
 //获取素材列表
 function getMaterialList(offset){
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         timeout: 20000,
         url:getMaterialListAPI,
         data:{
@@ -346,7 +346,7 @@ function getMaterialList(offset){
 //获取图文列表
 function getNewsList(offset){
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         timeout: 20000,
         url:getNewsListAPI,
         data:{
