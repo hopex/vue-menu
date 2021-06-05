@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/element-ui@2.15.2/lib/index.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui@2.15.2/lib/theme-chalk/index.css" />
     <link href="css/menu.css" rel="stylesheet">
 </head>
 <body>
         <div class="content" style="width:900px;margin:0 auto;">
-            <div id="app-menu">
+            <div id="app-menu" v-cloak>
                 <!-- 预览窗 -->
                 <div class="weixin-preview">
                     <div class="weixin-hd">
@@ -83,17 +85,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="menu-msg-content" v-else-if="selectedMenuType()==2">
+                        <div class="menu-msg-content" v-else-if="selectedMenuType()==2" v-loading="materialLoading">
                             <div class="menu-msg-head"><i class="icon_msg_sender"></i>图文消息</div>
                             <div class="menu-msg-panel">
-                                <div class="menu-msg-select" v-if="menu.button[selectedMenuIndex].media_id==''||menu.button[selectedMenuIndex].media_id==undefined" @click="selectMaterialId">
+                                <div class="menu-msg-select" v-if="!menu.button[selectedMenuIndex].media_id" @click="selectMaterialId">
                                     <i class="icon36_common add_gray"></i>
                                     <strong>从素材库中选择</strong>
                                 </div>
                                 <div class="menu-msg-select" v-else>
                                     <div class="menu-msg-title"><i class="icon_msg_sender"></i>{{material.title}}</div>
-                                    <a :href="material.url" target="_blank" class="btn btn-sm btn-info">查看</a>
-                                    <div class="btn btn-sm btn-danger" @click="delMaterialId">删除</div>
+                                    <a :href="material.url" target="_blank" class="el-button el-button--mini">查看</a>
+                                    <el-button size="mini" type="danger" @click="delMaterialId">删除</el-button>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +174,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="menu-msg-content" v-else-if="selectedMenuType()==2">
+                    <div class="menu-msg-content" v-else-if="selectedMenuType()==2" v-loading="materialLoading">
                         <div class="menu-msg-head"><i class="icon_msg_sender"></i>图文消息</div>
                         <div class="menu-msg-panel">
                             <div class="menu-msg-select" v-if="menu.button[selectedMenuIndex].sub_button[selectedSubMenuIndex].media_id==''||menu.button[selectedMenuIndex].sub_button[selectedSubMenuIndex].media_id==undefined" @click="selectMaterialId">
@@ -181,8 +183,8 @@
                             </div>
                             <div class="menu-msg-select" v-else>
                                 <i class="icon_msg_sender"></i>{{material.title}}
-                                <a :href="material.url" target="_blank" class="btn btn-sm btn-info">查看</a>
-                                <div class="btn btn-sm btn-danger" @click="delMaterialId">删除</div>
+                                <a :href="material.url" target="_blank" class="el-button el-button--mini">查看</a>
+                                    <el-button size="mini" type="danger" @click="delMaterialId">删除</el-button>
                             </div>
                         </div>
                     </div>
@@ -218,72 +220,40 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="weixin-btn-group">
-                <div id="btn-create" class="btn btn-success">发布</div>
-                <div id="btn-clear" class="btn btn-danger">清空</div>
+                <div class="weixin-btn-group">
+                    <el-button type="primary" @click="onMenuSubmit">发布</el-button>
+                    <el-button type="danger"  @click="onMenuClear">清空</el-button>
+                </div>
+                <el-dialog title="选择图文" :visible="newsDialog">
+                    <el-table :data="newsList" stripe>
+                        <el-table-column label="图文标题" prop="title"></el-table-column>
+                        <el-table-column label="日期" prop="update_time"></el-table-column>
+                        <el-table-column label="操作">
+                            <template slot-scope="{row}">
+                                <el-button type="primary" size="small" @click="setNewsUrl(row)">选择</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-dialog>
+                <el-dialog title="选择素材" :visible="materialDialog">
+                    <el-table :data="materialList" stripe>
+                        <el-table-column label="素材名称">
+                            <template slot-scope="{row}">
+                                <div v-for="(item,index) in row.content.news_item">
+                                    ({{index+1}}).{{item.title}}
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作">
+                            <template slot-scope="{row}">
+                                <el-button type="primary" size="small" @click="setMaterialId(row)">选择</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-dialog>
             </div>
         </div>
 
-        <!-- 弹出层 -->
-        <div id="news-list" style="display: none;">
-            <table id="news-table" class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>图文标题</th>
-                    <th width="130">日期</th>
-                    <th width="130">操作</th>
-                </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        <div id="material-list" style="display: none;">
-            <table id="material-table" class="table table-responsive table-bordered">
-                <thead>
-                <tr>
-                    <th>素材名称</th>
-                    <th width="130">操作</th>
-                </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <script src="js/jquery-1.12.3.min.js"></script>
-        <script src="js/vue.js"></script>
-        <script src="js/template-web.js"></script>
-        <script src="js/layer/layer.js"></script>
         <script src="js/weixin-menu.js"></script>
-
-        <script id="material-tpl" type="text/html">
-            {{each item v k}}
-            <tr>
-                <td>
-                    <ul>
-                        {{each v.content.news_item v2 k2}}
-                        <li><a href="{{v2.url}}" target="_blank">{{k2+1}}. {{v2.title}}</a></li>
-                        {{/each}}
-                    </ul>
-                </td>
-                <td>
-                    <button onclick="app.setMaterialId('{{v.media_id}}','{{v.content.news_item[0].title}}','{{v.content.news_item[0].url}}')" class="btn btn-primary">选择</button>
-                </td>
-            </tr>
-            {{/each}}
-        </script>
-
-        <script id="news-tpl" type="text/html">
-            {{each item v k}}
-            <tr>
-                <td>{{v.title}}</td>
-                <td>{{v.update_time}}</td>
-                <td>
-                    <a href="{{v.url}}" target="_blank" class="btn btn-info">查看</a>
-                    <button onclick="app.setNewsUrl('{{v.url}}')" class="btn btn-primary btn-material-id">选择</button>
-                </td>
-            </tr>
-            {{/each}}
-        </script>
 </body>
 </html>
