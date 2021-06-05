@@ -160,7 +160,7 @@ new Vue({
         },
         //删除菜单
         async delMenu() {
-            if (this.selectedMenuLevel() == 1 && confirm('删除后菜单下设置的内容将被删除')) {
+            if (this.selectedMenuLevel() == 1) {
                 try {
                     await this.$confirm('删除后菜单下设置的内容将被删除', '提示');
                 } catch{
