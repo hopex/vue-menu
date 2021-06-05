@@ -1,10 +1,10 @@
 //API
-const getMenuAPI = 'test_menu.json';
+const getMenuAPI = 'https://hopex.github.io/vue-menu/test_menu.json';
 const createMenuAPI = '';
 const clearMenuAPI = '';
-const getMaterialAPI = 'test_material_detail.json';
-const getMaterialListAPI = 'test_material.json';
-const getNewsListAPI = 'test_news.json';
+const getMaterialAPI = 'https://hopex.github.io/vue-menu/test_material_detail.json';
+const getMaterialListAPI = 'https://hopex.github.io/vue-menu/test_material.json';
+const getNewsListAPI = 'https://hopex.github.io/vue-menu/test_news.json';
 
 //Vue
 new Vue({
@@ -159,8 +159,13 @@ new Vue({
             }
         },
         //删除菜单
-        delMenu() {
+        async delMenu() {
             if (this.selectedMenuLevel() == 1 && confirm('删除后菜单下设置的内容将被删除')) {
+                try {
+                    await this.$confirm('删除后菜单下设置的内容将被删除', '提示');
+                } catch{
+                    return;
+                }
                 if (this.selectedMenuIndex === 0) {
                     this.menu.button.splice(this.selectedMenuIndex, 1);
                     this.selectedMenuIndex = 0;
