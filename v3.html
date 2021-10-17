@@ -224,7 +224,7 @@
                     <el-button type="primary" @click="onMenuSubmit">发布</el-button>
                     <el-button type="danger"  @click="onMenuClear">清空</el-button>
                 </div>
-                <el-dialog title="选择图文" :visible="newsDialog">
+                <el-dialog title="选择图文" v-model="newsDialog">
                     <el-table :data="newsList" stripe>
                         <el-table-column label="图文标题" prop="title"></el-table-column>
                         <el-table-column label="日期" prop="update_time"></el-table-column>
@@ -235,7 +235,7 @@
                         </el-table-column>
                     </el-table>
                 </el-dialog>
-                <el-dialog title="选择素材" :visible="materialDialog">
+                <el-dialog title="选择素材" v-model="materialDialog">
                     <el-table :data="materialList" stripe>
                         <el-table-column label="素材名称">
                             <template slot-scope="{row}">
