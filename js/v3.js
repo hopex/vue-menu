@@ -232,7 +232,7 @@ const App={
             let item=news_item[0];
             this.material.title = item.title;
             this.material.url = item.url;
-            this.materialDialog=false;
+            //this.materialDialog=false;
         },
         //删除选择的素材id
         delMaterialId(){
