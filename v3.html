@@ -177,17 +177,15 @@
                     <div class="menu-msg-content" v-else-if="selectedMenuType()==2" v-loading="materialLoading">
                         <div class="menu-msg-head"><i class="icon_msg_sender"></i>图文消息</div>
                         <div class="menu-msg-panel">
-                            <div class="menu-msg-select" v-if="menu.button[selectedMenuIndex].sub_button[selectedSubMenuIndex].media_id==''||menu.button[selectedMenuIndex].sub_button[selectedSubMenuIndex].media_id==undefined" @click="selectMaterialId">
-                                <i class="icon36_common add_gray"></i>
-                                <strong>从素材库中选择</strong>
-                            </div>
-                            <!--
-                            <div class="menu-msg-select" v-else>
+                            <div class="menu-msg-select" v-if="menu.button[selectedMenuIndex].sub_button[selectedSubMenuIndex].media_id">
                                 <i class="icon_msg_sender"></i>{{material.title}}
                                 <a :href="material.url" target="_blank" class="el-button el-button--mini">查看</a>
                                     <el-button size="mini" type="danger" @click="delMaterialId">删除</el-button>
                             </div>
-                            -->
+                            <div class="menu-msg-select" v-else @click="selectMaterialId">
+                                <i class="icon36_common add_gray"></i>
+                                <strong>从素材库中选择</strong>
+                            </div>
                         </div>
                     </div>
                     <div class="menu-content" v-else-if="selectedMenuType()==3">
