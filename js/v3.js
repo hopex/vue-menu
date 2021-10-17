@@ -8,8 +8,8 @@ const getNewsListAPI = 'https://hopex.github.io/vue-menu/test_news.json';
 
 //Vue
 const App={
-    el: '#app-menu',
-    data: {
+    data(){
+        return {
         weixinTitle: 'Vue.js公众号菜单',
         menu: { button: [] }, //当前菜单
         selectedMenuIndex: '', //当前选中菜单索引
@@ -29,7 +29,7 @@ const App={
         newsList:[],
         newsListOffset:0,
         newsListTotal:0,
-        
+        }
     },
     mounted() {
         this.getMenu();
@@ -222,9 +222,11 @@ const App={
         setMaterialId(row) {
             let {media_id,content}=row;
             if (this.selectedMenuLevel() == 1) {
-                this.$set(this.menu.button[this.selectedMenuIndex],'media_id',media_id);
+                //this.$set(this.menu.button[this.selectedMenuIndex],'media_id',media_id);
+                this.menu.button[this.selectedMenuIndex].media_id=media_id
             } else if (this.selectedMenuLevel() == 2) {
-                this.$set(this.menu.button[this.selectedMenuIndex].sub_button[this.selectedSubMenuIndex],'media_id',media_id);
+                //this.$set(this.menu.button[this.selectedMenuIndex].sub_button[this.selectedSubMenuIndex],'media_id',media_id);
+                this.menu.button[this.selectedMenuIndex].sub_button[this.selectedSubMenuIndex].media_id=media_id
             }
             let {news_item}=content;
             let item=news_item[0];
@@ -235,18 +237,22 @@ const App={
         //删除选择的素材id
         delMaterialId(){
             if (this.selectedMenuLevel() == 1) {
-                this.$set(this.menu.button[this.selectedMenuIndex],'media_id','');
+                //this.$set(this.menu.button[this.selectedMenuIndex],'media_id','');
+                this.menu.button[this.selectedMenuIndex].media_id=''
             } else if (this.selectedMenuLevel() == 2) {
-                this.$set(this.menu.button[this.selectedMenuIndex].sub_button[this.selectedSubMenuIndex],'media_id','');
+                //this.$set(this.menu.button[this.selectedMenuIndex].sub_button[this.selectedSubMenuIndex],'media_id','');
+                this.menu.button[this.selectedMenuIndex].sub_button[this.selectedSubMenuIndex].media_id=''
             }
         },
         //设置选择的图文链接
         setNewsUrl(row) {
             let {url}=row
             if (this.selectedMenuLevel() == 1) {
-                this.$set(this.menu.button[this.selectedMenuIndex], 'url', url);
+                //this.$set(this.menu.button[this.selectedMenuIndex], 'url', url);
+                this.menu.button[this.selectedMenuIndex].url=url
             } else if (this.selectedMenuLevel() == 2) {
-                this.$set(this.menu.button[this.selectedMenuIndex].sub_button[this.selectedSubMenuIndex], 'url', url);
+                //this.$set(this.menu.button[this.selectedMenuIndex].sub_button[this.selectedSubMenuIndex], 'url', url);
+                this.menu.button[this.selectedMenuIndex].sub_button[this.selectedSubMenuIndex].url=url
             }
             this.newsDialog=false;
         },
@@ -330,4 +336,4 @@ const App={
 }
 const app = Vue.createApp(App);
 app.use(ElementPlus);
-app.mount("#app");
+app.mount("#app-menu");
