@@ -229,7 +229,7 @@
                         <el-table-column label="图文标题" prop="title"></el-table-column>
                         <el-table-column label="日期" prop="update_time"></el-table-column>
                         <el-table-column label="操作">
-                            <template slot-scope="{row}">
+                            <template #default="{row}">
                                 <el-button type="primary" size="small" @click="setNewsUrl(row)">选择</el-button>
                             </template>
                         </el-table-column>
@@ -238,14 +238,14 @@
                 <el-dialog title="选择素材" v-model="materialDialog">
                     <el-table :data="materialList" stripe>
                         <el-table-column label="素材名称">
-                            <template slot-scope="{row}">
+                            <template #default="{row}">
                                 <div v-for="(item,index) in row.content.news_item">
                                     ({{index+1}}).{{item.title}}
                                 </div>
                             </template>
                         </el-table-column>
                         <el-table-column label="操作">
-                            <template slot-scope="{row}">
+                            <template #default="{row}">
                                 <el-button type="primary" size="small" @click="setMaterialId(row)">选择</el-button>
                             </template>
                         </el-table-column>
