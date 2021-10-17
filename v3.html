@@ -87,15 +87,17 @@
                         </div>
                         <div class="menu-msg-content" v-else-if="selectedMenuType()==2" v-loading="materialLoading">
                             <div class="menu-msg-head"><i class="icon_msg_sender"></i>图文消息</div>
-                            <div class="menu-msg-panel">
-                                <div class="menu-msg-select" v-if="!menu.button[selectedMenuIndex].media_id" @click="selectMaterialId">
-                                    <i class="icon36_common add_gray"></i>
-                                    <strong>从素材库中选择</strong>
-                                </div>
-                                <div class="menu-msg-select" v-else>
+                            <div class="menu-msg-panel" v-if="menu.button[selectedMenuIndex].media_id">
+                                <div class="menu-msg-select" >
                                     <div class="menu-msg-title"><i class="icon_msg_sender"></i>{{material.title}}</div>
                                     <a :href="material.url" target="_blank" class="el-button el-button--mini">查看</a>
                                     <el-button size="mini" type="danger" @click="delMaterialId">删除</el-button>
+                                </div>
+                            </div>
+                            <div class="menu-msg-panel" v-else>
+                                <div class="menu-msg-select" @click="selectMaterialId">
+                                    <i class="icon36_common add_gray"></i>
+                                    <strong>从素材库中选择</strong>
                                 </div>
                             </div>
                         </div>
@@ -176,13 +178,16 @@
                     </div>
                     <div class="menu-msg-content" v-else-if="selectedMenuType()==2" v-loading="materialLoading">
                         <div class="menu-msg-head"><i class="icon_msg_sender"></i>图文消息</div>
-                        <div class="menu-msg-panel">
-                            <div class="menu-msg-select" v-if="menu.button[selectedMenuIndex].sub_button[selectedSubMenuIndex].media_id">
-                                <i class="icon_msg_sender"></i>{{material.title}}
+                        <div class="menu-msg-panel" v-if="menu.button[selectedMenuIndex].sub_button[selectedSubMenuIndex].media_id">
+                            <div class="menu-msg-select" >
+                                <i class="icon_msg_sender"></i>
+                                <span>{{material.title}}</span>
                                 <a :href="material.url" target="_blank" class="el-button el-button--mini">查看</a>
-                                    <el-button size="mini" type="danger" @click="delMaterialId">删除</el-button>
+                                <el-button size="mini" type="danger" @click="delMaterialId">删除</el-button>
                             </div>
-                            <div class="menu-msg-select" v-else @click="selectMaterialId">
+                        </div>
+                        <div class="menu-msg-panel" v-else>
+                            <div class="menu-msg-select" @click="selectMaterialId">
                                 <i class="icon36_common add_gray"></i>
                                 <strong>从素材库中选择</strong>
                             </div>
