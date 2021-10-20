@@ -29,11 +29,13 @@
                                             <span>{{sub.name}}</span>
                                         </div>
                                     </li>
-                                    <li v-if="btn.sub_button.length<5" class="menu-sub-item" @click.stop="addMenu(2)">
+                                    <template v-if="btn.sub_button.length<5">
+                                    <li class="menu-sub-item" @click.stop="addMenu(2)">
                                         <div class="menu-item-title">
                                             <i class="icon14_menu_add"></i>
                                         </div>
                                     </li>
+                                    </template>
                                     <i class="menu-arrow arrow_out"></i>
                                     <i class="menu-arrow arrow_in"></i>
                                 </ul>
