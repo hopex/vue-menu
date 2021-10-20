@@ -29,18 +29,18 @@
                                             <span>{{sub.name}}</span>
                                         </div>
                                     </li>
-                                    <template v-if="btn.sub_button.length<5">
-                                    <li class="menu-sub-item" @click.stop="addMenu(2)">
+                                    <li v-if="btn.sub_button.length<5" class="menu-sub-item" @click.stop="addMenu(2)">
                                         <div class="menu-item-title">
                                             <i class="icon14_menu_add"></i>
                                         </div>
                                     </li>
-                                    </template>
                                     <i class="menu-arrow arrow_out"></i>
                                     <i class="menu-arrow arrow_in"></i>
                                 </ul>
                             </li>
-                            <li class="menu-item" v-if="menu.button.length<3" @click="addMenu(1)"> <i class="icon14_menu_add"></i></li>
+                            <template v-if="menu.button.length<3" >
+                            <li class="menu-item" @click="addMenu(1)"> <i class="icon14_menu_add"></i></li>
+                            </template>
                         </ul>
                     </div>
                 </div>
